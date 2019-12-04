@@ -1,0 +1,101 @@
+<aaltoSaliencyButton>:
+    text: "Calculate\nAalto\nSaliency"
+    font_size: 24
+    background_normal: ''
+    background_color: 0.1,0.8,0.1,1.0
+
+<highSaliencyButton>:
+    text: "Calculate\nHigh\nSaliency"
+    font_size: 24
+    background_normal: ''
+    background_color: 0.1,0.8,0.1,1.0
+
+<vizMetrics>:
+    do_default_tab: False
+    color: 1, 1, 0, 1
+    label: label
+
+    TabbedPanelItem:
+        text: 'Load\nImage'
+        BoxLayout: 
+
+            # Creating Icon view other side 
+            FileChooserIconView: 
+                path: app.pathToImages
+                canvas.before: 
+                    Color: 
+                        rgb: .6, .4, .6
+                    Rectangle: 
+                        pos: self.pos 
+                        size: self.size 
+                on_selection: thumbnailImage.reload()
+                on_selection: app.currentImage = label.text
+                on_selection: root.select(*args)
+ 
+            BoxLayout:
+                orientation: 'vertical'
+
+                Image:
+                    id: thumbnailImage
+                    source: app.pathToImages+label.text 
+                    size: self.texture_size
+
+                Label: 
+                    id: label 
+                    size_hint_y: .1
+                    text: "default.png"
+                    canvas.before: 
+                        Color: 
+                            rgb: .6, .2, .5
+                        Rectangle: 
+                            pos: self.pos 
+                            size: self.size   
+
+    TabbedPanelItem:
+        text: 'Image\nUnprocessed'
+        BoxLayout:
+            orientation: 'horizontal'
+
+            Image:
+                id: rawImage
+                source: app.pathToImages+label.text 
+                size: self.texture_size
+
+            Label: 
+                id: labelIm 
+                size_hint_x: .1
+                text: "Image\nUnprocessed"
+                canvas.before: 
+                    Color: 
+                        rgb: .6, .2, .5
+                    Rectangle: 
+                        pos: self.pos 
+                        size: self.size
+
+    TabbedPanelItem:
+        text: 'Aalto\nSaliency'
+        BoxLayout:
+            orientation: 'horizontal'
+            Image: 
+                id: aaltoSaliencyIm_00
+                source: app.pathToGenerated+aaltoSaliencyButton.aaltoSaliencyImage
+                size: self.texture_size
+            aaltoSaliencyButton:
+                id: aaltoSaliencyButton
+                size_hint_x: .1
+                on_release: aaltoSaliencyIm_00.reload()
+                on_release: self.saliency_aalto()
+
+    TabbedPanelItem:
+        text: 'High\nSaliency'
+        BoxLayout:
+            orientation: 'horizontal'
+            Image: 
+                id: highSaliencyIm_00
+                source: app.pathToGenerated+highSaliencyButton.highSaliencyImage
+                size: self.texture_size
+            highSaliencyButton:
+                id: highSaliencyButton
+                size_hint_x: .1
+                on_release: highSaliencyIm_00.reload()
+                on_release: self.saliency_high()
