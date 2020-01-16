@@ -14,7 +14,7 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout 
 from kivy.properties import StringProperty
 
-from saliencyMetric import low_res, hi_res, aalto
+from saliencyMetric import low_res, hi_res, aalto, edgeCongestion
 
 pathForImages = "C:/Users/nickh/OneDrive/Newcastle/Research/MetricsOfVisualization/vizMetrics/Images/"
 generatedImages = "C:/Users/nickh/OneDrive/Newcastle/Research/MetricsOfVisualization/vizMetrics/_Images/"
@@ -41,7 +41,7 @@ class aaltoSaliencyButton(Button):
         saliencyFile = generatedImages + self.aaltoSaliencyImage
 
         saliencyDensityVal = aalto(inputFile,saliencyFile)
-        print( saliencyDensityVal )
+        print( "Aalto saliency : " + str(saliencyDensityVal) )
 
 
 class highSaliencyButton(Button):
@@ -64,7 +64,51 @@ class highSaliencyButton(Button):
         saliencyFile = generatedImages + self.highSaliencyImage
 
         saliencyDensityVal = hi_res(inputFile,saliencyFile)
-        print( saliencyDensityVal )
+        print( "Hi-res saliency : " + str(saliencyDensityVal) )
+
+class lowSaliencyButton(Button):
+    # Create a property to allow saliency image file name to be set.
+    lowSaliencyImage = StringProperty('blank.png')
+
+    def __init__(self, **kwargs):
+        super(Button, self).__init__(**kwargs)
+
+    def saliency_low(self):
+        global pathForImages
+        global generatedImages
+        global currentFile
+        
+        fName, fExt = os.path.splitext(currentFile)
+        
+        self.lowSaliencyImage = fName+'_low_saliency'+fExt
+
+        inputFile = pathForImages + currentFile
+        saliencyFile = generatedImages + self.lowSaliencyImage
+
+        saliencyDensityVal = low_res(inputFile,saliencyFile)
+        print( "Lo-res saliency : " + str(saliencyDensityVal) )
+
+class edgeCongestionButton(Button):
+    # Create a property to allow saliency image file name to be set.
+    edgeCongestionImage = StringProperty('blank.png')
+
+    def __init__(self, **kwargs):
+        super(Button, self).__init__(**kwargs)
+
+    def edgeCongestion(self):
+        global pathForImages
+        global generatedImages
+        global currentFile
+        
+        fName, fExt = os.path.splitext(currentFile)
+        
+        self.edgeCongestionImage = fName+'_edgeCongestion'+fExt
+
+        inputFile = pathForImages + currentFile
+        saliencyFile = generatedImages + self.edgeCongestionImage
+
+        edgeCongestionVal = edgeCongestion(inputFile,saliencyFile)
+        print( "Edge congestion : " + str(edgeCongestionVal) )
 
 
 class vizMetrics(TabbedPanel):

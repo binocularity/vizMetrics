@@ -10,6 +10,18 @@
     background_normal: ''
     background_color: 0.1,0.8,0.1,1.0
 
+<lowSaliencyButton>:
+    text: "Calculate\nLow\nSaliency"
+    font_size: 24
+    background_normal: ''
+    background_color: 0.1,0.8,0.1,1.0
+
+<edgeCongestionButton>:
+    text: "Calculate\nEdge\nCongestion"
+    font_size: 24
+    background_normal: ''
+    background_color: 0.1,0.8,0.1,1.0
+
 <vizMetrics>:
     do_default_tab: False
     color: 1, 1, 0, 1
@@ -99,3 +111,31 @@
                 size_hint_x: .1
                 on_release: highSaliencyIm_00.reload()
                 on_release: self.saliency_high()
+
+    TabbedPanelItem:
+        text: 'Low\nSaliency'
+        BoxLayout:
+            orientation: 'horizontal'
+            Image: 
+                id: lowSaliencyIm_00
+                source: app.pathToGenerated+lowSaliencyButton.lowSaliencyImage
+                size: self.texture_size
+            lowSaliencyButton:
+                id: lowSaliencyButton
+                size_hint_x: .1
+                on_release: lowSaliencyIm_00.reload()
+                on_release: self.saliency_low()
+
+    TabbedPanelItem:
+        text: 'Edge\nCongestion'
+        BoxLayout:
+            orientation: 'horizontal'
+            Image: 
+                id: edgeCongestionIm_00
+                source: app.pathToGenerated+edgeCongestionButton.edgeCongestionImage
+                size: self.texture_size
+            edgeCongestionButton:
+                id: edgeCongestionButton
+                size_hint_x: .1
+                on_release: edgeCongestionIm_00.reload()
+                on_release: self.edgeCongestion()
