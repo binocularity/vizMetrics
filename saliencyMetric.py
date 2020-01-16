@@ -108,6 +108,30 @@ def create_border(img, borders, y, x):
 
     return ret
 
+#
+# Notes for this implementation of the algortihm from Minuikovich and De Angeli:
+# https://www.researchgate.net/publication/266657991_Quantification_of_interface_visual_complexity
+#
+# We operationalized edge congestion and figure-ground contrast. 
+# Edge congestion relies on the notion of critical spacing – minimal distance between objects at which the user starts 
+# having difficulties differentiating the objects. We tried out 8-, 12- and 20pixel thresholds, which all gave similar results. 
+# Hence, we chose the 20-pixel threshold. 
+# ##
+# ## NB The Aalto implementation here by Thomas Langerak in 2017 uses 4 as the congestion threshold, arguing more than 4 pixels is too far.
+# ## BUT we feel this depends on screen size and viewing distance and should really be expressed in terms of visual angle.
+# ##
+# The algorithm consisted of two main steps: detecting edges and detecting edges in close proximity. 
+# Any edge detection algorithm without pre-detection smoothing could be used (e.g., the Sobel or Prewitt algorithms); 
+# we used simple value difference of more than 50 between adjacent pixels across all three (red, green and blue) color components. 
+# The edges by different color components were combined using disjunction. 
+# In the second step, if at least two pixels of two different edges occurred in the same 20-pixel vicinity, they were marked as congested. 
+# The marking was done in both horizontal and vertical directions. 
+# Finally, we took the ratio of ‘congested’ pixels (pc) to all edge pixels (pa) as the metric of edge congestion: !"#$= !!/!!. 
+# Edge congestion does not require chance normalization as the symmetry metric above, despite they both leverage edge detection. 
+# Whatever the reason is two edges are too close, they still impede user perception fluency. 
+#
+# Rosenholtz's 2007 feature congestion metric is less well correlated with RT than edge congestion
+#
 def edgeCongestion(inFile, outFile):
     # Initialize
     print( "Running contour congestion" )
