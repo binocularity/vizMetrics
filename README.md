@@ -1,2 +1,2 @@
 # vizMetrics
- Metrics for texting visualization outputs
+ Metrics for testing visualization outputs
